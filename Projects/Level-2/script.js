@@ -32,11 +32,8 @@ const pop = new Audio("Assets/Pop.mp3");
 pop.volume = 0.6;
 
 function flip(event) {
-    let currentBox = event.target.parentElement.parentElement.parentElement;
-    console.log(event.target);
-    console.log(event.target.parentElement);
     // lmao
-    console.log(event.target.parentElement.parentElement.children[1].children[0].id);
+    let currentBox = event.target.parentElement.parentElement.parentElement;
     let imageId = event.target.parentElement.parentElement.children[1].children[0].id;
     let currentShape = backImages[imageId];
 
@@ -56,13 +53,13 @@ function flip(event) {
             setTimeout(() => {
                 tempCurrentBox.classList.toggle("hover");
                 tempLastBox.classList.toggle("hover");
-            }, 800); // 1 second async delay before unhovering
+            }, 800); // 0.8 second delay before unhovering
         }
         flipped = false;
         
         if(moves == 12) {
             soldierSay("The grace period is now over.")
-            setTimeout(() => soldierSay("We will start eliminating players."), 6000);
+            setTimeout(() => soldierSay("We will start eliminating players."), 4000);
         }
     } else {
         flipped = true;
@@ -125,5 +122,5 @@ function soldierSay(sentence) {
     let text = document.getElementsByClassName("soldierText")[0];
     text.style.opacity = "1";
     text.innerText = sentence;
-    setTimeout(() => text.style.opacity = "0", 5000);
+    setTimeout(() => text.style.opacity = "0", 4000);
 }
