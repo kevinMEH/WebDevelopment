@@ -2,76 +2,60 @@ import React from "react";
 
 import { Wrapper, BlockWrapper } from "./Grid.styles";
 
+// Components
 import { Block } from "../Block";
+
+// Hooks
+import { useEmptyBlock } from "../../hooks/useEmptyBlock";
 
 const Grid = () => {
     
+    const {
+        emptyBlock,
+        setEmptyBlock
+    } = useEmptyBlock();
+    
+    const blockWrappers = [];
+    let emptyBlockNum = emptyBlock - 0;
+    let up = emptyBlockNum - 4;
+    let down = emptyBlockNum + 4;
+    let left = emptyBlockNum % 4 === 0 ? -420 : emptyBlockNum - 1; // If block is on the left side there is no left block!
+    let right = emptyBlockNum % 4 === 3 ? -420 : emptyBlockNum + 1; // If block is on the right side there is no right block!
+    
+    for(let i = 0; i < 16; i++) {
+        if(i === emptyBlock || i === up || i === down || i === left || i === right) {
+            // Draggable if it's the empty block or neighbors
+            blockWrappers.push(
+                <BlockWrapper
+                    style={ {gridArea: i + "" } }
+                    className={ "BlockWrapper" }
+                >
+                    <Block text={i + ""}
+                        isDraggable={true}
+                        setEmptyBlock={ setEmptyBlock }
+                        className={"Block Block--item" + i + " Block--isDraggable"}
+                    />
+                </BlockWrapper>
+            )
+        } else {
+            // Not draggable
+            blockWrappers.push(
+                <BlockWrapper
+                    style={ {gridArea: i + "" } }
+                    className={ "BlockWrapper" }
+                >
+                    <Block
+                        text={i + ""}
+                        className={"Block Block--item" + i}
+                    />
+                </BlockWrapper>
+            )
+        }
+    }
     
     return (
         <Wrapper>
-            <BlockWrapper style={ {gridArea: "0"} }>
-                <Block text="0" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "1"} }>
-                <Block text="1" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "2"} }>
-                <Block text="2" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "3"} }>
-                <Block text="3" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "4"} }>
-                <Block text="4" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "5"} }>
-                <Block text="5" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "6"} }>
-                <Block text="6" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "7"} }>
-                <Block text="7" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "8"} }>
-                <Block text="8" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "9"} }>
-                <Block text="9" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "10"} }>
-                <Block text="10" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "11"} }>
-                <Block text="11" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "12"} }>
-                <Block text="12" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "13"} }>
-                <Block text="13" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "14"} }>
-                <Block text="14" />
-            </BlockWrapper>
-
-            <BlockWrapper style={ {gridArea: "15"} }>
-                <Block text="" isBlank={true} />
-            </BlockWrapper>
+            { blockWrappers }
         </Wrapper>
     )
 };

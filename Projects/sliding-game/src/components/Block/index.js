@@ -2,10 +2,14 @@ import React from 'react';
 
 import { Content } from "./Block.styles";
 
-const Block = ( {text, isBlank = false} ) => {
-    <span>
-        <h1>{text}</h1>
-    </span>
+const Block = ( {text, isDraggable = false, setEmptyBlock } ) => {
+    return (
+        <span>
+            <Content>
+                <h1>{text}</h1>
+            </Content>
+        </span>
+    );
 }
 
 export default Block;
