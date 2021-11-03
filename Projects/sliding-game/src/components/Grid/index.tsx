@@ -8,7 +8,7 @@ import Block from "../Block";
 import BlockWrapper from "../BlockWrapper";
 
 // Hooks
-import useEmptyBlock from "../../hooks/useEmptyBlock";
+import useEmptyWrapper from "../../hooks/useEmptyWrapper";
 
 // Swappable
 import initializeSwappable from "../swappable";
@@ -16,15 +16,15 @@ import initializeSwappable from "../swappable";
 const Grid = () => {
     
     const {
-        emptyBlock,
-        setEmptyBlock
-    } = useEmptyBlock();
+        emptyWrapper,
+        setEmptyWrapper
+    } = useEmptyWrapper();
     
     const blockWrappers = [];
     const blocks:Array<JSX.Element> = [];
     
     // Initial creation of wrapper and block
-    let emptyBlockNum: number = +emptyBlock;
+    let emptyBlockNum:number = +emptyWrapper;
     let up = emptyBlockNum - 4;
     let down = emptyBlockNum + 4;
     let left = emptyBlockNum % 4 === 0 ? -420 : emptyBlockNum - 1; // If block is on the left side there is no left block!
@@ -40,7 +40,7 @@ const Grid = () => {
                 blockClassName += " Block--isEmpty";
             }
         }
-        
+
         blocks.push(
             <Block
                 blockClassName={ blockClassName }
@@ -57,7 +57,7 @@ const Grid = () => {
     
     // Update of blocks
     function updateClasses() {
-        let newNum = +emptyBlock;
+        let newNum = +emptyWrapper;
         let newUp = emptyBlockNum - 4;
         let newDown = emptyBlockNum + 4;
         let newLeft = emptyBlockNum % 4 === 0 ? -420 : emptyBlockNum - 1; // If block is on the left side there is no left block!
