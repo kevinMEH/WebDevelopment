@@ -9,9 +9,3 @@ export const Wrapper = styled.div`
 
     box-sizing: inherit;
 `
-
-export const BlockWrapper = styled.div`
-    position: relative;
-    box-sizing: inherit;
-    display: block;
-`

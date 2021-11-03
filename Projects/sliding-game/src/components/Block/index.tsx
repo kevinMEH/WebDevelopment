@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Content } from "./Block.styles";
 
-const Block = ( {text, isDraggable = false} ) => {
+const Block = ( {blockClassName, text}: {blockClassName: string, text: string} ) => {
     return (
         <span>
             <Content>
