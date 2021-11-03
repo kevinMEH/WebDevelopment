@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import initializeSwappable from "../components/swappable";
 
 const useEmptyBlock = () => {
     
@@ -7,8 +6,6 @@ const useEmptyBlock = () => {
     const [emptyBlock, setEmptyBlock] = useState("15");
     console.log(emptyBlock);
         
-    useEffect(() => initializeSwappable(), []);
-    
     return {emptyBlock, setEmptyBlock};
 };
 
