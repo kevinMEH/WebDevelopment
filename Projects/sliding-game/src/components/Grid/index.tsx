@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { Children, useRef } from "react";
 import { Swappable } from "@shopify/draggable";
 
 import { Wrapper } from "./Grid.styles";
@@ -20,8 +20,9 @@ const Grid = () => {
         setEmptyWrapper
     } = useEmptyWrapper();
     
-    const blockWrappers = [];
+    const blockWrappers:Array<JSX.Element> = [];
     const blocks:Array<JSX.Element> = [];
+    let emptyBlock:JSX.Element;
     
     // Initial creation of wrapper and block
     let emptyBlockNum:number = +emptyWrapper;
@@ -53,26 +54,27 @@ const Grid = () => {
                 { blocks[i] }
             </BlockWrapper>
         )
+        
+        if(i === emptyBlockNum) emptyBlock = blocks[i];
     }
     
     // Update of blocks
     function updateClasses() {
         let newNum = +emptyWrapper;
-        let newUp = emptyBlockNum - 4;
-        let newDown = emptyBlockNum + 4;
-        let newLeft = emptyBlockNum % 4 === 0 ? -420 : emptyBlockNum - 1; // If block is on the left side there is no left block!
-        let newRight = emptyBlockNum % 4 === 3 ? -420 : emptyBlockNum + 1; // If block is on the right side there is no right block!
+        let newUp = newNum - 4;
+        let newDown = newNum + 4;
+        let newLeft = newNum % 4 === 0 ? -420 : emptyBlockNum - 1; // If block is on the left side there is no left block!
+        let newRight = newNum % 4 === 3 ? -420 : emptyBlockNum + 1; // If block is on the right side there is no right block!
         
         for(let i = 0; i < 16; i++) {
             let blockClassName = "Block Block--item" + i;
             
-            if(i === newNum || i === newUp || i === newDown || i === newLeft || i === newRight) {
+            if(i === newUp || i === newDown || i === newLeft || i === newRight) {
                 // Draggable if it's the empty block or neighbors
                 blockClassName += " Block--isDraggable"; 
-                if(i === newNum) {
-                    blockClassName += " Block--isEmpty";
-                }
             }
+            
+            blockWrappers[i].props.children.blockClassName = blockClassName;
         }
     }
     
@@ -95,7 +97,18 @@ const Grid = () => {
 		event.cancel();
 	});
     
+    interface BlockProps {
+        blockClassName: string,
+        text: string
+    }
+    
     swappable.on("swappable:swapped", () => {
+        let emptyBlockWrapper;
+        for(let wrapper of blockWrappers) {
+            let child = React.Children.only<React.ReactElement<BlockProps>>(wrapper.props.children);
+            if(child.props.blockClassName.includes("isEmpty")) emptyBlockWrapper = wrapper;
+        }
+        setEmptyWrapper((emptyBlockWrapper as any).index)
         updateClasses();
     });
     
