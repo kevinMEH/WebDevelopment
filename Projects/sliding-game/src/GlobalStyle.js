@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -23,6 +23,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
 
         h1 {
+            text-align: center;
             font-size: 2rem;
         }
 
@@ -30,4 +31,16 @@ export const GlobalStyle = createGlobalStyle`
             font-size: 1rem;
         }
     }
+`
+
+export const Container = styled.div`
+    height: auto;
+    padding-top: 4%;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-bottom: 4%;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
 `

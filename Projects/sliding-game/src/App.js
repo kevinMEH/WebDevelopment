@@ -3,11 +3,11 @@ import React from "react";
 // Components
 import Grid from "./components/Grid";
 
-import { GlobalStyle } from "./GlobalStyle";
+import { GlobalStyle, Container } from "./GlobalStyle";
 
 const App = () => {
 	return (
-		<>
+		<Container>
 			<h1>Welcome to the Sliding Game!</h1>
 			<p>
 				To win the game, arrange the numbers from 1 to 15 in order from left
@@ -16,7 +16,7 @@ const App = () => {
 			</p>
 			<Grid />
 			<GlobalStyle />
-		</>
+		</Container>
 	);
 };
 

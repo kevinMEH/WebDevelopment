@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-    display: block;
-    positon: relative;
-    box-sizing: inherit;
+export const BlockSpan = styled.span`
     height: 100%;
+    position: relative;
+    display: block;
 `
+
 export const Content = styled.div`
     color: #212121;
     background-color: #FFF;
@@ -20,6 +20,7 @@ export const Content = styled.div`
     positon: relative;
     min-height: 8rem;
     height: 100%;
+    min-width: 8rem;
 
     box-sizing: inherit;
 `
