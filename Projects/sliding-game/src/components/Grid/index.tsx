@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Swappable } from "@shopify/draggable";
 
 import { Wrapper } from "./Grid.styles";
