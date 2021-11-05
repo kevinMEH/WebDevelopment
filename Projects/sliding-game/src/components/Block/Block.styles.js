@@ -7,9 +7,14 @@ export const BlockSpan = styled.span`
 `
 
 export const Content = styled.div`
-    color: #212121;
-    background-color: #FFF;
+    color: #d5c4a1;
+    background-color: #f2e5bc;
     border: 0.5rem solid currentColor;
+    
+    h1 {
+        font-size: 2.5rem;
+        color: #928374;
+    }
 
     display: flex;
     align-items: center;
@@ -17,7 +22,7 @@ export const Content = styled.div`
     flex-direction: column;
     text-align: center;
 
-    positon: relative;
+    position: relative;
     min-height: 8rem;
     height: 100%;
     min-width: 8rem;
