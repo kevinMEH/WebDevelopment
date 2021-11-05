@@ -1,0 +1,3 @@
+[submodule "Projects/sliding-game"]
+	path = Projects/sliding-game
+	url = https://github.com/kevinMEH/sliding-game
