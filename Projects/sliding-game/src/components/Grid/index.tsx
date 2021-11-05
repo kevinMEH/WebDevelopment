@@ -52,14 +52,11 @@ const Grid = () => {
 
         const swappable = new Swappable(containers, {
             draggable: ".Block--isDraggable",
-            // draggable: ".Block",
             mirror: {
                 appendTo: containerSelector,
                 constrainDimensions: true,
             }
         });
-
-        console.log("Swappable Success.");
 
         swappable.on("swappable:start", () => console.log("swappable:start"));
         swappable.on("swappable:swapped", () => console.log("swappable:swapped"));
@@ -70,6 +67,7 @@ const Grid = () => {
         
         swappable.on("drag:start", (event) => {
             sourceContainer = event.source;
+            console.log(sourceContainer);
             if(sourceContainer.classList.contains("Block--isEmpty")) return;
 
             event.cancel();
@@ -93,12 +91,13 @@ const Grid = () => {
                     break;
                 }
             }
-            console.log("EMPTY BLOCK WRAPPER " + emptyBlockWrapper!)
             let indexIndex = emptyBlockWrapper!.className.indexOf("index");
             emptyWrapperRef.current = +(emptyBlockWrapper!.className.substring(indexIndex + 5, indexIndex + 7).trim());
-            console.log(emptyWrapperRef.current);
-            updateClasses();
         });
+        
+        swappable.on("swappable:stop", () => {
+            updateClasses();
+        })
         
         function updateClasses() {
             let newNum = +emptyWrapperRef.current;
@@ -108,24 +107,79 @@ const Grid = () => {
             let newRight = newNum % 4 === 3 ? -420 : newNum + 1; // If block is on the right side there is no right block!
             
             let wrappers:HTMLElement[] = [].slice.call(sourceContainer.parentElement?.parentElement?.children);
-            console.log(wrappers);
             
             for(let i = 0; i < 16; i++) {
-                let blockClassName = "Block Block--item" + i;
+                let blockOriginalClassName = wrappers[i].children[0].className;
+                let blockClassName = "Block Block--item" + blockOriginalClassName.substring(blockOriginalClassName.indexOf("item") + 4, blockOriginalClassName.indexOf("item") + 6).trim();
                 
-                if(i === newUp || i === newDown || i === newLeft || i === newRight) {
+                if(i === newNum || i === newUp || i === newDown || i === newLeft || i === newRight) {
                     // Draggable if it's the empty block or neighbors
                     blockClassName += " Block--isDraggable";
                 }
                 
+                if(i === newNum) blockClassName += " Block--isEmpty";
+                
                 wrappers[i].children[0].className = blockClassName;
             }
+            
+            console.log("Updated");
+            
         }
         
+        function shuffle() {
+            let newNum = +emptyWrapperRef.current;
+            let newUp = newNum - 4;
+            let newDown = newNum + 4;
+            let newLeft = newNum % 4 === 0 ? -420 : newNum - 1; // If block is on the left side there is no left block!
+            let newRight = newNum % 4 === 3 ? -420 : newNum + 1; // If block is on the right side there is no right block!
+            let available = [];
+            
+            let emptyBlock = document.getElementsByClassName("Block--isEmpty")[0];
+            let emptyBlockWrapper = emptyBlock.parentElement;
+            
+            if(newUp >= 0 && newUp <= 15) available.push(newUp);
+            if(newDown >= 0 && newDown <= 15) available.push(newDown);
+            if(newLeft >= 0 && newLeft <= 15) available.push(newLeft);
+            if(newRight >= 0 && newRight <= 15) available.push(newRight);
+            
+            console.log(available);
+            
+            let random = Math.random();
+            let swapTarget;
+            for(let i = 0; i < available.length; i++) {
+                if(random < ((i + 1) * 1 / available.length)) {
+                    swapTarget = available[i];
+                    break;
+                }
+            }
+            
+            let swapBlock = document.getElementsByClassName("Block--item" + swapTarget)[0];
+            let swapBlockWrapper = swapBlock.parentElement;
+            
+            console.log(emptyBlockWrapper);
+            console.log(swapBlockWrapper);
+            
+            emptyBlockWrapper!.innerHTML = "";
+            swapBlockWrapper!.innerHTML = "";
+            
+            console.log(emptyBlockWrapper);
+            console.log(swapBlockWrapper);
+            
+            emptyBlockWrapper!.innerHTML = swapBlock.outerHTML;
+            swapBlockWrapper!.innerHTML = emptyBlock.outerHTML;
+            
+            sourceContainer = document.getElementsByClassName('Block--item15')[0] as HTMLElement;
+            
+            let indexIndex = swapBlockWrapper!.className.indexOf("index");
+            emptyWrapperRef.current = +(swapBlockWrapper!.className.substring(indexIndex + 5, indexIndex + 7).trim());
+            
+            updateClasses();
+        }
+        
+        for(let i = 0; i < 100; i++)
+            shuffle();
+        
     })
-    
-
-    
     
     // I hate react
     return (
