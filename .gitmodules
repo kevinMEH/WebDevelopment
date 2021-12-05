@@ -1,3 +1,6 @@
 [submodule "Projects/sliding-game"]
 	path = Projects/sliding-game
 	url = https://github.com/kevinMEH/sliding-game
+[submodule "Projects/react-todo-list"]
+	path = Projects/react-todo-list
+	url = https://github.com/kevinMEH/react-todo-list
